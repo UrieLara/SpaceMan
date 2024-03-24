@@ -333,7 +333,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: jump-1
+      name: idle
       rect:
         serializedVersion: 2
         x: 78
@@ -1200,7 +1200,7 @@ TextureImporter:
       floor: -347797673
       gray: 2074643832
       green: -1518771747
-      jump-1: 1574887892
+      idle: 1574887892
       jump-2: -1806259758
       jump-3: -441295003
       jump-4: -1065270449
