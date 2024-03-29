@@ -8,10 +8,11 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody2D rigidBody;
     Animator animator;
+    Vector3 startPosition;
 
     float playerHeight = 1.45f; //1.35 m
     public float jumpForce = 6f;
-    public float runningSpeed = 5f; //2m x seg
+    public float runningSpeed = 5f; //5m x seg
     float move;
 
     public LayerMask groundMask;
@@ -28,34 +29,48 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        startPosition = this.transform.position;
+    }
+
+    public void StartGame()
+    {
         animator.SetBool(STATE_ALIVE, true);
         animator.SetBool(STATE_ON_THE_GROUND, true);
         animator.SetFloat(STATE_SPEED, 0f);
+
+        Invoke("RestartPosition", 0.2f);
+
+    }
+
+    private void RestartPosition()
+    {
+        this.rigidBody.velocity = Vector2.zero;
+        this.transform.position = startPosition;
     }
 
     void Update()
     {
-
         animator.SetBool(STATE_ON_THE_GROUND, IsTouchingTheGround());
         animator.SetFloat(STATE_SPEED, Mathf.Abs(rigidBody.velocity.x));
-     
     }
 
     void FixedUpdate()
     {
-      
-        if (Input.GetKey(KeyCode.Space) || Input.GetMouseButtonDown(0))
+        if(GameManager.sharedInstance.currentGameState == GameState.inGame)
         {
-            Jump();
+            if (Input.GetButton("Jump"))
+            {
+                Jump();
+            }
+
+            move = Input.GetAxis("Horizontal");
+
+            if (move != 0)
+            {
+                Run();
+            }
         }
-
-        move = Input.GetAxis("Horizontal");
-
-        if (move != 0)
-        { 
-            Run(); 
-        }
-
+  
     }
 
   
@@ -87,9 +102,16 @@ public class PlayerController : MonoBehaviour
     {
         rigidBody.velocity = new Vector2(move * runningSpeed, rigidBody.velocity.y);
         
+        
         bool flipped = move < 0;
         this.transform.rotation = Quaternion.Euler(new Vector2(0f, flipped ? 180f : 0f));
 
+    }
+
+    public void Die()
+    {
+        this.animator.SetBool(STATE_ALIVE , false);
+        GameManager.sharedInstance.GameOver();
     }
 
 }
