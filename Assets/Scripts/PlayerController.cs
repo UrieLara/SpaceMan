@@ -21,6 +21,16 @@ public class PlayerController : MonoBehaviour
     const string STATE_ON_THE_GROUND = "isOnTheGround";
     const string STATE_SPEED = "speed";
 
+    int healthPoints = 1, manaPoints = 1;
+    public const int INITIAL_HEALT = 100, INITIAL_MANA = 15,
+        MAX_HEALTH = 200, MAX_MANA = 30,
+        MIN_HEALT = 10, MIN_MANA = 0;
+
+    public const int SUPERJUMP_COST = 5;
+    public const float SUPERJUMP_FORCE = 1.5f;
+
+    float distanceScore = 0;
+
     void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
@@ -29,7 +39,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        startPosition = this.transform.position;
+        startPosition = new Vector3(-8,-2,0);
     }
 
     public void StartGame()
@@ -37,6 +47,9 @@ public class PlayerController : MonoBehaviour
         animator.SetBool(STATE_ALIVE, true);
         animator.SetBool(STATE_ON_THE_GROUND, true);
         animator.SetFloat(STATE_SPEED, 0f);
+
+        healthPoints = INITIAL_HEALT;
+        manaPoints = INITIAL_MANA;
 
         Invoke("RestartPosition", 0.2f);
 
@@ -65,7 +78,11 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetButton("Jump"))
             {
-                Jump();
+                Jump(false);
+            }
+            if (Input.GetButton("SuperJump"))
+            {
+                Jump(true);
             }
 
             move = Input.GetAxis("Horizontal");
@@ -79,11 +96,19 @@ public class PlayerController : MonoBehaviour
     }
 
   
-    void Jump()
+    void Jump(bool superJump)
     {
+        float jumpForceFactor = jumpForce;
+
         if (IsTouchingTheGround())
         {
-            rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);  
+            if (superJump && manaPoints >= SUPERJUMP_COST)
+            {
+                manaPoints -= SUPERJUMP_COST;
+                jumpForceFactor *= SUPERJUMP_FORCE;
+            }
+
+            rigidBody.AddForce(Vector2.up * jumpForceFactor, ForceMode2D.Impulse);  
         }
     }
 
@@ -115,11 +140,65 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
+
+        float travelledDistance = GetTravelledDistance();
+        float prevoiusMaxDistance = PlayerPrefs.GetFloat("maxscore",0f);
+
+        if(travelledDistance > prevoiusMaxDistance)
+        {
+            PlayerPrefs.SetFloat("maxscore", travelledDistance);
+        }
+
+
         this.animator.SetBool(STATE_ALIVE , false);
         GameManager.sharedInstance.GameOver();
     }
 
+    public void CollectHealth (int points)
+    {
+        this.healthPoints += points;
+        if(this.healthPoints >= MAX_HEALTH)
+        {
+            this.healthPoints = MAX_HEALTH;
+        }
+    }
+
+    public void CollectMana (int points)
+    {
+        this.manaPoints += points;
+        if (this.manaPoints >= MAX_MANA)
+        {
+            this.manaPoints = MAX_MANA;
+        }
+    }
+
+    public int GetHealth()
+    {
+        if (this.healthPoints <= 0)
+        {
+            Die();
+        }
+
+        return this.healthPoints;
+    }
+
+    public int GetMana()
+    {
+        return this.manaPoints;
+    }
+
+    public float GetTravelledDistance()
+    {
+        if(distanceScore<(this.transform.position.x - startPosition.x))
+        {
+            distanceScore = this.transform.position.x - startPosition.x;
+        }
+
+        return distanceScore;
+    }
+
 }
+
 
 /* 
  * -----NOTAS-----*

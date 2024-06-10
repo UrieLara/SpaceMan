@@ -5,7 +5,8 @@ using UnityEngine;
 public class MenuManager : MonoBehaviour
 {
     public static MenuManager sharedInstance;
-    public Canvas menuCanvas;
+    public Canvas menuMainCanvas, menuGameCanvas, menuGameOverCanvas;
+
     void Start()
     {
         if (sharedInstance == null)
@@ -13,22 +14,29 @@ public class MenuManager : MonoBehaviour
             sharedInstance = this;
         }
 
+        menuGameCanvas.enabled = false;
+        menuGameOverCanvas.enabled = false;
+
     }
 
-    // Update is called once per frame
     void Update()
     {
         
     }
 
-    public void ShowMainMenu()
+    public void ToggleMainMenu(bool show)
     {
-        menuCanvas.enabled = true;
+        menuMainCanvas.enabled = show;
     }
 
-    public void HideMainMenu()
+    public void ToggleGameMenu(bool show)
     {
-        menuCanvas.enabled = false;
+        menuGameCanvas.enabled = show;
+    }
+
+    public void ToggleGameOverMenu(bool show)
+    {
+        menuGameOverCanvas.enabled = show;
     }
 
     public void ExitGame()

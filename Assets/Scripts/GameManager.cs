@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     
     PlayerController controller;
 
+    public int collectedObject = 0;
+
     private void Awake()
     {
         if(sharedInstance == null)
@@ -56,28 +58,41 @@ public class GameManager : MonoBehaviour
         SetGameState(GameState.menu);
     }
 
+
+
     void SetGameState(GameState newGameState)
     {
         if (newGameState == GameState.menu)
         {
-            MenuManager.sharedInstance.ShowMainMenu();
+            MenuManager.sharedInstance.ToggleMainMenu(true); 
+            MenuManager.sharedInstance.ToggleGameMenu(false);
+            MenuManager.sharedInstance.ToggleGameOverMenu(false);
+
         }
         else if (newGameState == GameState.inGame)
         {
-            //TODO: preparar escena de juego
+            controller.StartGame();
             LevelManager.sharedInstance.RemoveAllLevelBlock();
             LevelManager.sharedInstance.GenerateInitialBlock();
-            controller.StartGame();
-            MenuManager.sharedInstance.HideMainMenu();
+            
+            MenuManager.sharedInstance.ToggleMainMenu(false); 
+            MenuManager.sharedInstance.ToggleGameMenu(true); 
+            MenuManager.sharedInstance.ToggleGameOverMenu(false);
         }
         else if (newGameState == GameState.gameOver)
         {
-            //TODO: preparar fin de partida
-            MenuManager.sharedInstance.ShowMainMenu(); 
+            MenuManager.sharedInstance.ToggleMainMenu(true);
+            MenuManager.sharedInstance.ToggleGameMenu(false); 
+            MenuManager.sharedInstance.ToggleGameOverMenu(true);
 
         }
 
         this.currentGameState = newGameState;
+    }
+
+    public void CollectObject(Collectable collectable)
+    {
+        collectedObject += collectable.value;
     }
 
     /*NOTA
