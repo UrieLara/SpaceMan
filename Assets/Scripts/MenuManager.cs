@@ -19,11 +19,6 @@ public class MenuManager : MonoBehaviour
 
     }
 
-    void Update()
-    {
-        
-    }
-
     public void ToggleMainMenu(bool show)
     {
         menuMainCanvas.enabled = show;

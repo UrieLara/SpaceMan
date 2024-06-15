@@ -18,7 +18,7 @@ public class Collectable : MonoBehaviour
 
     GameObject player;
 
-    bool hasBeenCollected = false;
+    //bool hasBeenCollected = false;
 
     public int value = 1;
 
@@ -37,18 +37,19 @@ public class Collectable : MonoBehaviour
     {
         sprite.enabled = true;
         itemCollider.enabled = true;
-        hasBeenCollected = false;
+      //  hasBeenCollected = false;
     }
 
     void Collect()
     {
-        hasBeenCollected = true;
+       // hasBeenCollected = true;
         Hide();
 
         switch (this.type)
         {
             case CollectableType.money:
                 GameManager.sharedInstance.CollectObject(this);
+                GetComponent<AudioSource>().Play();
                 break;
 
 

@@ -5,10 +5,22 @@ using UnityEngine.UI;
 
 public class GameView : MonoBehaviour
 {
+
+    public static GameView sharedInstance;
+
     public Text scoreText, coinsText, maxScoreText;
     PlayerController playerController;
 
-    
+
+    private void Awake()
+    {
+        if (sharedInstance == null)
+        {
+            sharedInstance = this;
+        }
+
+    }
+
     void Start()
     {
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -20,12 +32,13 @@ public class GameView : MonoBehaviour
         if(GameManager.sharedInstance.currentGameState == GameState.inGame)
         {
             int coins = GameManager.sharedInstance.collectedObject;
-            float score = playerController.GetTravelledDistance(), maxScore = 0;
-            float maxscore = PlayerPrefs.GetFloat("maxscore", 0f);
+            float score = playerController.GetTravelledDistance();
+            float maxScore = PlayerPrefs.GetFloat("maxScore",0f);
 
             coinsText.text = coins.ToString();
             scoreText.text = "Score: " + score.ToString("f1"); //float de 1 decimal
             maxScoreText.text = "Max Score: " + maxScore.ToString("f1");
         }
+
     }
 }

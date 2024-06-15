@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public enum GameState
@@ -59,7 +60,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-
     void SetGameState(GameState newGameState)
     {
         if (newGameState == GameState.menu)
@@ -85,6 +85,8 @@ public class GameManager : MonoBehaviour
             MenuManager.sharedInstance.ToggleGameMenu(false); 
             MenuManager.sharedInstance.ToggleGameOverMenu(true);
 
+            collectedObject = 0;
+            GetComponent<AudioSource>().Play();
         }
 
         this.currentGameState = newGameState;

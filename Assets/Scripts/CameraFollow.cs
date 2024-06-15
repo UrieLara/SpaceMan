@@ -14,12 +14,6 @@ public class CameraFollow : MonoBehaviour
     {
         Application.targetFrameRate = 60; //60 frames x seg
     }
-
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         MoveCamera(true);

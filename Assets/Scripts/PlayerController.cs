@@ -9,19 +9,22 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rigidBody;
     Animator animator;
     Vector3 startPosition;
+    SpriteRenderer spriteRenderer;
 
-    float playerHeight = 1.45f; //1.35 m
     public float jumpForce = 6f;
     public float runningSpeed = 5f; //5m x seg
     float move;
 
     public LayerMask groundMask;
+    public float jumpRaycastDistance = 1.5f;
 
     const string STATE_ALIVE = "isAlive";
     const string STATE_ON_THE_GROUND = "isOnTheGround";
     const string STATE_SPEED = "speed";
 
-    int healthPoints = 1, manaPoints = 1;
+    [SerializeField]
+    int healthPoints, manaPoints;
+
     public const int INITIAL_HEALT = 100, INITIAL_MANA = 15,
         MAX_HEALTH = 200, MAX_MANA = 30,
         MIN_HEALT = 10, MIN_MANA = 0;
@@ -35,15 +38,20 @@ public class PlayerController : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Start()
     {
-        startPosition = new Vector3(-8,-2,0);
+        startPosition = new Vector3(-8,10,0);
+     
     }
 
     public void StartGame()
     {
+ 
+        ChangeColor();
+        distanceScore = 0;
         animator.SetBool(STATE_ALIVE, true);
         animator.SetBool(STATE_ON_THE_GROUND, true);
         animator.SetFloat(STATE_SPEED, 0f);
@@ -70,6 +78,8 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetBool(STATE_ON_THE_GROUND, IsTouchingTheGround());
         animator.SetFloat(STATE_SPEED, Mathf.Abs(rigidBody.velocity.x));
+
+        Debug.DrawRay(this.transform.position, Vector2.down * jumpRaycastDistance, Color.red);
     }
 
     void FixedUpdate()
@@ -108,7 +118,8 @@ public class PlayerController : MonoBehaviour
                 jumpForceFactor *= SUPERJUMP_FORCE;
             }
 
-            rigidBody.AddForce(Vector2.up * jumpForceFactor, ForceMode2D.Impulse);  
+            rigidBody.AddForce(Vector2.up * jumpForceFactor, ForceMode2D.Impulse);
+            GetComponent<AudioSource>().Play();
         }
     }
 
@@ -117,7 +128,7 @@ public class PlayerController : MonoBehaviour
         if (Physics2D.Raycast(
              this.transform.position,
             Vector2.down,
-            playerHeight,
+           jumpRaycastDistance,
             groundMask)) {
 
             return true;
@@ -140,18 +151,28 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
+        rigidBody.velocity = Vector2.zero;
 
         float travelledDistance = GetTravelledDistance();
-        float prevoiusMaxDistance = PlayerPrefs.GetFloat("maxscore",0f);
+        float previousMaxDistance = PlayerPrefs.GetFloat("maxScore");
 
-        if(travelledDistance > prevoiusMaxDistance)
+        if (travelledDistance > previousMaxDistance)
         {
-            PlayerPrefs.SetFloat("maxscore", travelledDistance);
+            PlayerPrefs.SetFloat("maxScore", travelledDistance);
         }
 
-
-        this.animator.SetBool(STATE_ALIVE , false);
+        this.animator.SetBool(STATE_ALIVE, false);
         GameManager.sharedInstance.GameOver();
+    }
+
+    public void CollectMana(int points)
+    {
+        this.manaPoints += points;
+        if (this.manaPoints >= MAX_MANA)
+        {
+            this.manaPoints = MAX_MANA;
+        }
+
     }
 
     public void CollectHealth (int points)
@@ -161,15 +182,24 @@ public class PlayerController : MonoBehaviour
         {
             this.healthPoints = MAX_HEALTH;
         }
+
+        if (points < 0)
+        {
+            ChangeColor(1f, 0.4f, 0.4f);
+            Invoke("ChangeColor", 0.5f);
+        }
     }
 
-    public void CollectMana (int points)
+    public void ChangeColor(float r, float g, float b)
     {
-        this.manaPoints += points;
-        if (this.manaPoints >= MAX_MANA)
-        {
-            this.manaPoints = MAX_MANA;
-        }
+        this.spriteRenderer.color = new Color(r,g,b);
+
+    }
+
+    public void ChangeColor()
+    {
+        this.spriteRenderer.color = new Color(1f, 1f, 1f);
+
     }
 
     public int GetHealth()
@@ -193,8 +223,9 @@ public class PlayerController : MonoBehaviour
         {
             distanceScore = this.transform.position.x - startPosition.x;
         }
-
+       
         return distanceScore;
+
     }
 
 }
