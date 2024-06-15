@@ -8,3 +8,4 @@ _Curso impartido por Juan Gabriel Gomila en Platzi_
 Effects sound: 
 - PotionDrinkLONG.wav by Jamius
 - Retro video game sfx - Ouch by OwlStorm
+- Heart collect/Healing (Retro) by ReincarnatedEchoes
