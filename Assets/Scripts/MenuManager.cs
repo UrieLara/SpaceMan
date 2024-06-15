@@ -7,16 +7,17 @@ public class MenuManager : MonoBehaviour
     public static MenuManager sharedInstance;
     public Canvas menuMainCanvas, menuGameCanvas, menuGameOverCanvas;
 
-    void Start()
+    private void Awake()
     {
         if (sharedInstance == null)
         {
             sharedInstance = this;
         }
-
+    }
+    void Start()
+    {
         menuGameCanvas.enabled = false;
         menuGameOverCanvas.enabled = false;
-
     }
 
     public void ToggleMainMenu(bool show)

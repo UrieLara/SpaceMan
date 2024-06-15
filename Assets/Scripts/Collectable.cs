@@ -55,11 +55,13 @@ public class Collectable : MonoBehaviour
 
             case CollectableType.healthPotion:
                 player.GetComponent<PlayerController>().CollectHealth(this.value);
+                GetComponent<AudioSource>().Play();
                 break;
 
 
             case CollectableType.manaPotion:
                 player.GetComponent<PlayerController>().CollectMana(this.value);
+                GetComponent<AudioSource>().Play();
                 break;
             
         }

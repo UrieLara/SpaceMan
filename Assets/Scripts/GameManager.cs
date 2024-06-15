@@ -21,6 +21,10 @@ public class GameManager : MonoBehaviour
 
     public int collectedObject = 0;
 
+
+    public AudioSource inGameSound;
+    public AudioSource gameOverSound;
+
     private void Awake()
     {
         if(sharedInstance == null)
@@ -35,7 +39,6 @@ public class GameManager : MonoBehaviour
         controller = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(Input.GetButton("Submit") && currentGameState != GameState.inGame)
@@ -47,11 +50,14 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         SetGameState(GameState.inGame);
+        inGameSound.Play();
+
     }
 
     public void GameOver()
     {
         SetGameState(GameState.gameOver);
+        gameOverSound.Play();
     }
 
     public void BackToMenu()
@@ -86,7 +92,6 @@ public class GameManager : MonoBehaviour
             MenuManager.sharedInstance.ToggleGameOverMenu(true);
 
             collectedObject = 0;
-            GetComponent<AudioSource>().Play();
         }
 
         this.currentGameState = newGameState;

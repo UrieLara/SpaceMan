@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4683572425910535764}
   - component: {fileID: 1548262102641093202}
   - component: {fileID: 6663638510203377366}
-  - component: {fileID: 2028362518404487820}
+  - component: {fileID: 1134366687443808158}
   m_Layer: 6
   m_Name: Moving Platform-s
   m_TagString: Untagged
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29c3a33478ab7954fba396d62313f17f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!61 &2028362518404487820
+--- !u!61 &1134366687443808158
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,7 +100,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -2.048045, y: 0.021538943}
+  m_Offset: {x: -2.0934868, y: -0.008357346}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -111,7 +111,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.2276978, y: 1.043078}
+  m_Size: {x: 3.2313814, y: 0.9832853}
   m_EdgeRadius: 0
 --- !u!1001 &3469134842535788970
 PrefabInstance:
@@ -123,11 +123,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6241153691678344502, guid: 4f7b0b9934ecfa942b7e24882f1fde70, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.08
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6241153691678344502, guid: 4f7b0b9934ecfa942b7e24882f1fde70, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.07
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6241153691678344502, guid: 4f7b0b9934ecfa942b7e24882f1fde70, type: 3}
       propertyPath: m_LocalPosition.z

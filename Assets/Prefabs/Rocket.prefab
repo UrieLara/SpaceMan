@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2678646360861462142}
   - component: {fileID: 395689313403564333}
   - component: {fileID: 136090667965622263}
-  - component: {fileID: 4948598120917250980}
+  - component: {fileID: 3254684787291454766}
   m_Layer: 0
   m_Name: Rocket
   m_TagString: Enemy
@@ -187,7 +187,9 @@ MonoBehaviour:
   speed: 5
   damage: 10
   facingRight: 0
---- !u!82 &4948598120917250980
+  damageSound: {fileID: 8300000, guid: c0ad933d62b7d4a4eb3924eeca3eeb6a, type: 3}
+  enemySound: {fileID: 3254684787291454766}
+--- !u!82 &3254684787291454766
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -198,7 +200,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e6eefbfa87f7b3a439b938ce36c9d94d, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -208,7 +210,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 50
+  MaxDistance: 200
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -243,7 +245,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -273,7 +275,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0

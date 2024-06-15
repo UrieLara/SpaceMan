@@ -14,11 +14,15 @@ public class Enemy : MonoBehaviour
     public bool facingRight = false;
     Vector3 startPosition;
 
+    AudioSource audioSource;
+    public AudioClip damageSound;
+    public AudioSource enemySound;
 
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
-       
+        audioSource = GetComponent<AudioSource>();
+
         startPosition = this.transform.position;
     }
     void Start()
@@ -47,10 +51,13 @@ public class Enemy : MonoBehaviour
         if (GameManager.sharedInstance.currentGameState == GameState.inGame)
         {
             rigidBody.velocity = new Vector2(currentSpeed, rigidBody.velocity.y);
+            enemySound.Play();
+            
         }
         else
         {
             rigidBody.velocity = Vector2.zero;
+            enemySound.Stop();
 
         }
     }
@@ -65,7 +72,8 @@ public class Enemy : MonoBehaviour
         else if(collision.tag == "Player")
         {
             collision.gameObject.GetComponent<PlayerController>().CollectHealth(-damage);
-            
+            audioSource.PlayOneShot(damageSound);
+
             return;
         }
       
