@@ -1,7 +1,8 @@
 # SpaceMan
 **¿Qué tan lejos podrás llegar?** 🚀
 
-Juego 2D de plataformas <br>
+Space man es un juego 2D de plataformas <br>
+Recolecta las monedas y evita los cohetes.  <br>
 _Curso impartido por Juan Gabriel Gomila en Platzi_
 
 
