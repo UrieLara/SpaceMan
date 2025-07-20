@@ -1,12 +1,11 @@
 # SpaceMan
-**¿Qué tan lejos podrás llegar?** 🚀
+**How far can you go?** 🚀
 
-Space man es un juego 2D de plataformas <br>
-Recolecta las monedas y evita los cohetes.  <br>
-_Curso impartido por Juan Gabriel Gomila en Platzi_
+SpaceMan is a 2D platformer. <br>
+Collect coins and avoid rockets. <br>
+_Course taught by Juan Gabriel Gomila on Platzi_
 
-
-Efectos de sonidos: 
+Sound effects:
 - PotionDrinkLONG.wav by Jamius
 - Retro video game sfx - Ouch by OwlStorm
 - Heart collect/Healing (Retro) by ReincarnatedEchoes
